@@ -1,0 +1,263 @@
+\documentclass[10pt,colorlinks=true,urlcolor=blue]{moderncv}
+\usepackage{ulem}
+\usepackage[yyyymmdd]{datetime}
+\moderncvtheme[blue]{classic}
+\usepackage[utf8]{inputenc}
+\usepackage[%
+    backend=biber,
+    defernumbers=true,
+    refsection=section,
+    sorting=ydmdt,
+    maxbibnames=999]{biblatex}
+\appto{\bibsetup}{\raggedright}
+%%
+\addbibresource{pubs_peer_reviewed.bib}
+\addbibresource{pubs_in_review.bib}
+\addbibresource{pubs_other.bib}
+\addbibresource{talks.bib}
+\addbibresource{posters.bib}
+\newcommand*{\subsubsectionfont}{\uline{\large\mdseries\itshape}}% New subsubsection font
+\newcommand*{\subsubsectionstyle}[1]{{\subsubsectionfont\textcolor{color1}{#1}}}
+\makeatletter
+\NewDocumentCommand{\subsubsection}{sm}{%
+  \par\addvspace{1ex}%
+  \phantomsection{}% reset the anchor for hyperrefs
+  \addcontentsline{toc}{subsubsection}{#2}%
+  \begin{tabular}{@{}p{\hintscolumnwidth}@{\hspace{\separatorcolumnwidth}}p{\maincolumnwidth}@{}}%
+    \raggedleft\hintstyle{} &{\strut\subsubsectionstyle{#2}}%
+  \end{tabular}%
+  \par\nobreak\addvspace{0.5ex}\@afterheading}% to avoid a pagebreak after the heading
+\makeatother
+
+%Change Journal name from being in quotes to being italicized 
+\DeclareFieldFormat[article]{journaltitle}{\textit{#1}}
+
+% Count total number of entries in each refsection
+\AtDataInput{%
+  \csnumgdef{entrycount:\therefsection}{%
+    \csuse{entrycount:\therefsection}+1}}
+
+% Print the labelnumber as the total number of entries in the
+% current refsection, minus the actual labelnumber, plus one
+\DeclareFieldFormat{labelnumber}{\mkbibdesc{#1}}    
+\newrobustcmd*{\mkbibdesc}[1]{%
+  \number\numexpr\csuse{entrycount:\therefsection}+1-#1\relax}
+
+% Make my name bold
+\def\makenamesetup{%
+  \def\bibnamedelima{~}%
+  \def\bibnamedelimb{ }%
+  \def\bibnamedelimc{ }%
+  \def\bibnamedelimd{ }%
+  \def\bibnamedelimi{ }%
+  \def\bibinitperiod{.}%
+  \def\bibinitdelim{~}%
+  \def\bibinithyphendelim{.-}}
+\newcommand*{\makename}[2]{\begingroup\makenamesetup\xdef#1{#2}\endgroup}
+\newcommand*{\boldname}[3]{%
+  \def\lastname{#1}%
+  \def\firstname{#2}%
+  \def\firstinit{#3}}
+% \boldname{}{}{}
+% Patch new definitions
+\renewcommand{\mkbibnamegiven}[1]{%
+  \makename{\currname}{#1}%
+  \makename{\findname}{\firstname}%
+  \makename{\findinit}{\firstinit}%
+  \ifboolexpr{ test {\ifdefequal{\currname}{\findname}}%
+    or test {\ifdefequal{\currname}{\findinit}} }%
+  {\mkbibbold{#1}}{#1}%
+}
+\renewcommand{\mkbibnamefamily}[1]{%
+  \makename{\currname}{#1}%
+  \makename{\findname}{\lastname}%
+  \ifboolexpr{ test {\ifdefequal{\currname}{\findname}} }%
+  {\mkbibbold{#1}}{#1}%
+}
+
+% Fix spacing for pubs/talks
+\defbibenvironment{bibliography}
+  {\list
+     {\printtext[labelnumberwidth]{% label format from numeric.bbx
+        \printfield{labelprefix}%
+        \printfield{labelnumber}}}
+     {\setlength{\topsep}{0pt}% layout parameters from moderncvstyleclassic.sty
+      \setlength{\labelwidth}{\hintscolumnwidth}%
+      \setlength{\labelsep}{\separatorcolumnwidth}%
+      \leftmargin\labelwidth%
+      \advance\leftmargin\labelsep}%
+      \sloppy\clubpenalty4000\widowpenalty4000}
+  {\endlist}
+  {\item}
+
+% Change preprint title from being in quotes to being italicized 
+\DeclareFieldFormat[misc]{title}{``#1''}
+
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\pagenumbering{roman}
+
+\fancyfoot[C]{Page \thepage\ of \pageref*{LastPage}}
+
+\DeclareSortingTemplate{ydmdt}{
+  \sort{
+    \field{presort}
+  }
+  \sort[final]{
+    \field{sortkey}
+  }
+  \sort[direction=descending]{
+    \field{sortyear}
+    \field{year}
+  }
+  \sort[direction=descending]{
+    \field[padside=left,padwidth=2,padchar=0]{month}
+    \literal{00}
+  }
+  \sort[direction=descending]{
+    \field[padside=left,padwidth=2,padchar=0]{day}
+    \literal{00}
+  }
+  \sort{
+    \field[padside=left,padwidth=4,padchar=0]{volume}
+    \literal{0000}
+  }
+  \sort{
+    \field{sorttitle}
+  }
+}
+
+\usepackage[scale=0.8]{geometry}
+\newcommand{\cvdoublecolumn}[2]{%
+  \cvline{}{}{%
+    \begin{minipage}[t]{\listdoubleitemmaincolumnwidth}#1\end{minipage}%
+    \hfill%
+    \begin{minipage}[t]{\listdoubleitemmaincolumnwidth}#2\end{minipage}%
+    }%
+}
+
+\setlength{\hintscolumnwidth}{2.11cm}
+%
+% usage: \cvreference{name}{address line 1}{address line 2}{address line 3}{address line 4}{e-mail address}{phone number}
+% Everything but the name is optxional
+% If \addresssymbol, \emailsymbol or \phonesymbol are specified, they will be used.
+% (Per default, \addresssymbol isn't specified, the other two are specified.)
+% If you don't like the symbols, remove them from the following code, including the tilde ~ (space).
+
+\newcommand{\cvreference}[7]{%
+    \textbf{#1}\newline% Name
+    \ifthenelse{\equal{#2}{}}{}{\addresssymbol~#2\newline}%
+    \ifthenelse{\equal{#3}{}}{}{#3\newline}%
+    \ifthenelse{\equal{#4}{}}{}{#4\newline}%
+    \ifthenelse{\equal{#5}{}}{}{#5\newline}%
+    \ifthenelse{\equal{#6}{}}{}{\texttt{#6}\newline}%
+    \ifthenelse{\equal{#7}{}}{}{\phonesymbol~#7}}
+
+  \AtBeginDocument{\recomputelengths}
+  \firstname{\textbf{Sambit}}
+  \familyname{\textbf{Panda}}
+  % \address{Ph.D. Candidate, \\
+  %  Department of Biomedical Engineering \\
+  %  Johns Hopkins University \\
+  %  }{}
+  \email{spanda3@jhu.edu}
+  \homepage{sampan.me}
+
+
+\begin{document}
+
+\maketitle
+
+
+\section{Education}
+\cventry{2020 -- }{Ph.D in Biomedical Engineering}{Johns Hopkins Medical Institute}{Baltimore, MD, USA}{}{Advisor: Joshua T. Vogelstein}{}
+% {\newline \textbf{Thesis:} OOPSI: a family of optical spike inference algorithms for inferring neural connectivity from population calcium imaging }{}{}
+\cventry{2018 -- 2020}{M.S.E. in Biomedical Engineering}{Johns Hopkins University}{Baltimore, MD, USA}{}{}
+\cventry{2014 -- 2018}{B.S. in Biomedical Engineering \& Biology}{NC State University \& UNC Chapel Hill}{Raleigh, NC, USA}{}{}
+
+\section{Experience}
+\cventry{01/19 -- }{Graduate Student}{NeuroData, Department of Biomedical Engineering}{Johns Hopkins University, Baltimore, MD, USA}{Baltimore, MD, USA}{}{}
+\cventry{05/15 -- 09/15}{Intern}{Burleson Research Technologies}{RTP, NC, USA}{}{}
+\cventry{01/15 -- 05/18}{Research Assistant}{Sombers Lab, Department of Chemistry}{NC State University, Raleigh, NC, USA}{}{}
+\cventry{06/13 -- 01/14}{Research Assistant}{Jensen Lab}{National Institute of Environmental Health Sciences, RTP, NC, USA}{}{}
+
+\boldname{Panda}{Sambit}{S.}
+
+\section{Publications}
+
+\subsection{Journal Articles}
+\begin{refsection}[pubs_peer_reviewed.bib]
+    \nocite{*}
+    \printbibliography[heading=none]
+    \end{refsection}
+
+\subsection{Preprints}
+\begin{refsection}[pubs_in_review.bib]
+    \nocite{*}
+    \printbibliography[heading=none]
+    \end{refsection}
+
+\subsection{Other Publications}
+\begin{refsection}[pubs_other.bib]
+    \nocite{*}
+    \printbibliography[heading=none]
+    \end{refsection}
+
+\section{Sotware}
+\cventry{12/19 -- }{\href{https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.multiscale_graphcorr.html}{\texttt{scipy.stats.multiscale\_graphcorr}}}{}{Added a powerful multivariate independence test (multiscale graph correlation) to SciPy (the first such test)}{}{}{}
+\cventry{09/18 -- }{\href{https://github.com/neurodata/hyppo}{\texttt{hyppo} (originally \texttt{mgcpy})}}{}{Developed a multivariate hypothesis testing package in Python.}{}{}{}
+
+\section{Presentations}
+    
+\subsection{Oral Presentations}
+\begin{refsection}[talks.bib]
+    \nocite{*}
+    \printbibliography[heading=none]
+    \end{refsection}
+
+\subsection{Abstracts/Poster Presentations}
+\begin{refsection}[posters.bib]
+    \nocite{*}
+    \printbibliography[heading=none]
+    \end{refsection}
+
+\section{Awards \& Honors}
+\cventry{2020}{\href{https://researchtraining.nih.gov/programs/training-grants/T32-a}{Computational Biology Fellowship}}{Johns Hopkins University}{Baltimore, MD, USA}{}{}
+\cventry{2018}{\href{https://aws.amazon.com/government-education/nonprofits/aws-imagine-grant-program/}{AWS IMAGINE Grant}}{Amazon Web Services}{USA}{}{Supported the \texttt{mgcpy} (now \texttt{hyppo}) package.}
+\cventry{2018}{Magna Cum Laurde}{NC State University}{Raleigh, NC, USA}{}{}
+\cventry{2018}{University Honors Program Graduate}{NC State University}{Raleigh, NC, USA}{}{}
+\cventry{2018}{Outstanding Capstone Award}{University Honors Program, NC State University}{Raleigh, NC, USA}{}{}
+\cventry{2018}{Undergraduate Poster Award}{Triangle Society for Neuroscience}{RTP, NC, USA}{}{}
+\cventry{2017, 2018}{1st Place for Pitch}{i4 Pitch Competition}{RTP, NC, USA}{}{Supported protyping for my senior design project "Developing Solutions for Hand Spasticity"}
+\cventry{2015}{1st Place for Pitch}{i4 Pitch Competition}{RTP, NC, USA}{}{Supported protyping for the project "Surgical Site Infection Prevention"}
+\cventry{2014, 2016, 2017}{Goodnight Scholars Encichment Grants}{NC State University}{Raleigh, NC, USA}{}{Supported a the first year of the Ramchandra Panda Scholarship \& summers working for my lab (year 3 \& 4).}
+\cventry{2014 -- 2018}{Dean's List}{NC State University}{Raleigh, NC, USA}{}{}
+\cventry{2014}{\href{https://goodnight.ncsu.edu/}{Goodnight Scholarship}}{NC State University}{Raleigh, NC, USA}{}{}
+\cventry{2014}{\href{https://www.nationalmerit.org/s/1758/interior.aspx?sid=1758&gid=2&pgid=396}{National Merit Corporate Scholarship}}{National Merit Scholarship Corporation}{USA}{}{}
+
+\section{Teaching}
+\cventry{Spring '22}{Teaching Assistant, JHU}{EN.580.238/438/638}{\href{https://neurodatadesign.io/}{NeuroData Design II}}{}{}
+\cventry{Fall '21}{Teaching Assistant, JHU}{EN.580.237/437/697}{\href{https://neurodatadesign.io/}{NeuroData Design I}}{}{}
+\cventry{Spring '21}{Teaching Assistant, JHU}{EN.580.238/438/638}{\href{https://neurodatadesign.io/}{NeuroData Design II}}{}{}
+\cventry{Fall '20}{Teaching Assistant, JHU}{EN.580.237/437/697}{\href{https://neurodatadesign.io/}{NeuroData Design I}}{}{}
+\cventry{Fall '17}{Teaching Assistant, NC State}{BME 201}{Computer Methods in Biomedical Engineering}{}{}
+\cventry{Spring '17}{Teaching Assistant, NC State}{BME 210}{Biomedical Electronics}{}{}
+
+\section{Service}
+
+\subsection{Research Service}
+\cventry{11/22}{Life Sciences Advisor}{\href{https://www.alevelcapital.com/}{A-Level Capital}}{}{}{Advise and source early-stage life sciences companies.}{}
+\cventry{11/22}{Reviewer}{SoftwareX}{}{}{}{}
+\cventry{2021}{Co-Chair}{SciPy mini-symposium: Biology and Neuroscience}{Online}{}{}{}
+\cventry{2021}{Reviewer}{SciPy track: Scientific Applications of Machine Learning and Data Science}{Online}{}{}{}
+\cventry{2020}{Co-Chair}{SciPy mini-symposium: Scientific Applications of Biology and Bioinformatics}{Online}{}{}{}
+\cventry{2020}{Reviewer}{SciPy track: Machine Learning and Data Science}{Online}{}{}{}
+
+\subsection{Other Service}
+\cventry{2014 -- 2018}{Various}{Goodnight Scholars Program}{Raleigh, NC, USA}{Committee Chair/Member, Ambassador, Mentor, Tutor, and Senior Gift Member. Many events also revolved around service.}{}{}
+\cventry{12/17}{Student Volunteer}{\href{https://www.fimrc.org/blog/project-kodaikanal-a-hard-look-at-the-facts}{FIMRC}}{Kodaikanal, Tamil Nadu, India}{}{}{}
+\cventry{10/17 -- 02/18}{Neurosciences Hospital Volunteer}{UNC Healthcare}{Chapel Hill, NC, USA}{}{}{}
+\cventry{2012 -- }{President}{Ramchandara Panda Scholarship Trust}{Sahupada, Orissa, India}{The mission for this trust is to provide rural students the opportunity to build a better education by providing a monetary investment and by helping preserve traditions for future generations. It began as a math competition given to 50 rural students in home-village in India. It has now grown to 300+ students in both the village and neighboring town specializing in math, traditional Indian dance, art, and music.}{}{}
+
+\end{document}
