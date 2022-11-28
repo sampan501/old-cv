@@ -23,7 +23,6 @@
   publisher = {{arXiv}},
   doi = {10.48550/arXiv.1907.02088},
   url = {http://arxiv.org/abs/1907.02088},
-  urldate = {2022-10-19},
   abstract = {We introduce hyppo, a unified library for performing multivariate hypothesis testing, including independence, two-sample, and k-sample testing. While many multivariate independence tests have R packages available, the interfaces are inconsistent and most are not available in Python. hyppo includes many state of the art multivariate testing procedures. The package is easy-to-use and is flexible enough to enable future extensions. The documentation and all releases are available at https://hyppo.neurodata.io.},
   archiveprefix = {arXiv}
 }
@@ -39,7 +38,6 @@
   publisher = {{arXiv}},
   doi = {10.48550/arXiv.1910.08883},
   url = {http://arxiv.org/abs/1910.08883},
-  urldate = {2022-10-19},
   abstract = {The \$k\$-sample testing problem tests whether or not \$k\$ groups of data points are sampled from the same distribution. Multivariate analysis of variance (MANOVA) is currently the gold standard for \$k\$-sample testing but makes strong, often inappropriate, parametric assumptions. Moreover, independence testing and \$k\$-sample testing are tightly related, and there are many nonparametric multivariate independence tests with strong theoretical and empirical properties, including distance correlation (Dcorr) and Hilbert-Schmidt-Independence-Criterion (Hsic). We prove that universally consistent independence tests achieve universally consistent \$k\$-sample testing and that \$k\$-sample statistics like Energy and Maximum Mean Discrepancy (MMD) are exactly equivalent to Dcorr. Empirically evaluating these tests for \$k\$-sample scenarios demonstrates that these nonparametric independence tests typically outperform MANOVA, even for Gaussian distributed settings. Finally, we extend these non-parametric \$k\$-sample testing procedures to perform multiway and multilevel tests. Thus, we illustrate the existence of many theoretically motivated and empirically performant \$k\$-sample tests. A Python package with all independence and k-sample tests called hyppo is available from https://hyppo.neurodata.io/.},
   archiveprefix = {arXiv}
 }
@@ -55,7 +53,6 @@
   publisher = {{arXiv}},
   doi = {10.48550/arXiv.1812.00029},
   url = {http://arxiv.org/abs/1812.00029},
-  urldate = {2022-10-19},
   abstract = {Decision forests are popular tools for classification and regression. These forests naturally produce proximity matrices measuring how often each pair of observations lies in the same leaf node. It has been demonstrated that these proximity matrices can be thought of as kernels, connecting the decision forest literature to the extensive kernel machine literature. While other kernels are known to have strong theoretical properties such as being characteristic, no similar result is available for any decision forest based kernel. In this manuscript,we prove that the decision forest induced proximity can be made characteristic, which can be used to yield a universally consistent statistic for testing independence. We demonstrate the performance of the induced kernel on a suite of 20 high-dimensional independence test settings. We also show how this learning kernel offers insights into relative feature importance. The decision forest induced kernel typically achieves substantially higher testing power than existing popular methods in statistical tests.},
   archiveprefix = {arXiv}
 }
@@ -71,7 +68,6 @@
   publisher = {{arXiv}},
   doi = {10.48550/arXiv.2108.13637},
   url = {http://arxiv.org/abs/2108.13637},
-  urldate = {2022-10-19},
   abstract = {Deep networks and decision forests (such as random forests and gradient boosted trees) are the leading machine learning methods for structured and tabular data, respectively. Many papers have empirically compared large numbers of classifiers on one or two different domains (e.g., on 100 different tabular data settings). However, a careful conceptual and empirical comparison of these two strategies using the most contemporary best practices has yet to be performed. Conceptually, we illustrate that both can be profitably viewed as "partition and vote" schemes. Specifically, the representation space that they both learn is a partitioning of feature space into a union of convex polytopes. For inference, each decides on the basis of votes from the activated nodes. This formulation allows for a unified basic understanding of the relationship between these methods. Empirically, we compare these two strategies on hundreds of tabular data settings, as well as several vision and auditory settings. Our focus is on datasets with at most 10,000 samples, which represent a large fraction of scientific and biomedical datasets. In general, we found forests to excel at tabular and structured data (vision and audition) with small sample sizes, whereas deep nets performed better on structured data with larger sample sizes. This suggests that further gains in both scenarios may be realized via further combining aspects of forests and networks. We will continue revising this technical report in the coming months with updated results.},
   archiveprefix = {arXiv}
 }
@@ -87,7 +83,6 @@
   publisher = {{arXiv}},
   doi = {10.48550/arXiv.2110.08483},
   url = {http://arxiv.org/abs/2110.08483},
-  urldate = {2022-10-19},
   abstract = {Decision forests, including random forests and gradient boosting trees, remain the leading machine learning methods for many real-world data problems, specifically on tabular data. However, current standard implementations only operate in batch mode, and therefore cannot incrementally update when more data arrive. Several previous works developed streaming trees and ensembles to overcome this limitation. Nonetheless, we found that those state-of-the-art algorithms suffer from a number of drawbacks, including performing very poorly on some problems and requiring a huge amount of memory on others. We therefore developed the simplest possible extension of decision trees we could think of: given new data, simply update existing trees by continuing to grow them, and replace some old trees with new ones to control the total number of trees. On three standard datasets, we illustrate that our approach, Stream Decision Forest (SDF), does not suffer from either of the aforementioned limitations. In a benchmark suite containing 72 classification problems (the OpenML-CC18 data suite), we illustrate that our approach often performs as well, and sometimes better even, than the batch mode decision forest algorithm. Thus, we believe SDFs establish a simple standard for streaming trees and forests that could readily be applied to many real-world problems, including those with distribution drift and continual learning.},
   archiveprefix = {arXiv}
 }
